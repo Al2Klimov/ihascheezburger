@@ -18,8 +18,8 @@ jobs:
           token: '${{ secrets.GITHUB_TOKEN }}'
           script: |
             var base = "/repos/" + repo.owner + "/" + repo.name;
-            var prUri = base + "/pulls/" + pr.number;
-            var pull = GitHub.api("GET", prUri, {}, "");
+            var issue = base + "/issues/" + pr.number;
+            var pull = GitHub.api("GET", base + "/pulls/" + pr.number, {}, "");
             if (pull.status != 200) {
               throw "HTTP " + pull.status;
             }
@@ -47,7 +47,7 @@ jobs:
               }
               //
               if (latestNr !== null) {
-                var pull = GitHub.api("PATCH", prUri, {}, JSON.stringify({"milestone": latestNr}));
+                var pull = GitHub.api("PATCH", issue, {}, JSON.stringify({"milestone": latestNr}));
                 if (pull.status != 200) {
                   throw "HTTP " + pull.status;
                 }
@@ -78,7 +78,7 @@ jobs:
                 }
                 //
                 if (latestNr !== null) {
-                  var pull = GitHub.api("PATCH", prUri, {}, JSON.stringify({"milestone": latestNr}));
+                  var pull = GitHub.api("PATCH", issue, {}, JSON.stringify({"milestone": latestNr}));
                   if (pull.status != 200) {
                     throw "HTTP " + pull.status;
                   }
