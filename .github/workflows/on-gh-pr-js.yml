@@ -1,5 +1,4 @@
 name: on-gh-pr.js
-
 on:
   pull_request:
     types:
