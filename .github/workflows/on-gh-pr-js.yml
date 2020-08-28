@@ -1,0 +1,25 @@
+name: on-gh-pr.js
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  onghprjs:
+    name: on-gh-pr.js
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: on-gh-pr.js
+        uses: Icinga/on-gh-pr.js@master
+        with:
+          pr: '${{ github.event.pull_request.number }}'
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          script: |
+            var pull = GitHub.api("GET", "/repos/" + repo.owner + "/" + repo.name + "/pulls/" + pr.number, {}, "");
+            if (pull.status != 200) {
+              throw "HTTP " + pull.status;
+            }
+            var body = JSON.parse(pull.body);
+            console.log(body.base.ref);
