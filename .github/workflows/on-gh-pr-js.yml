@@ -51,6 +51,7 @@ jobs:
                 if (pull.status != 200) {
                   throw "HTTP " + pull.status;
                 }
+                console.log([latestNr, pull]);
               }
             } else {
               var match = /^support\/(\d+\.\d+)$/.exec(body.base.ref);
